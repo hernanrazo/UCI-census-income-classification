@@ -17,4 +17,15 @@ print(df.describe())
 print(' ')
 
 #print frequency table of population's education level
-print(df['education'].value_counts())
+print(df['education.num'].value_counts())
+
+#make a boxplot showing people's income based on age
+edIncomeBoxPlot = plt.figure()
+plt.title('Income Based on Age')
+df.boxplot(column = 'age', by = 'income')
+plt.savefig(graph_folder_path + 'edIncomeBoxPlot')
+
+
+
+
+
