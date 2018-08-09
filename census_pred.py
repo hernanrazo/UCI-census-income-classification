@@ -2,10 +2,8 @@ import numpy as np
 import pandas as pd 
 from matplotlib import pyplot as plt 
 
-
 #get dataset
 df = pd.read_csv('/Users/hernanrazo/pythonProjects/census_income_prediction/adult.csv')
-
 
 #make a string that holds most of the folder path
 graph_folder_path = '/Users/hernanrazo/pythonProjects/census_income_prediction/graphs/'
@@ -60,7 +58,6 @@ marital_status_key = {'Married-civ-spouse':0, 'Never-married':1, 'Divorced':2,
 
 df['marital_status'] = df['marital.status'].map(marital_status_key)
 
-print(df['occupation'].value_counts())
 #now do the occupation variable
 occupation_key = {'Prof-specialty':0, 'Craft-repair':1, 'Exec-managerial':2, 
 				  'Adm-clerical':3, 'Sales':4, 'Other-service':5,
@@ -70,20 +67,31 @@ occupation_key = {'Prof-specialty':0, 'Craft-repair':1, 'Exec-managerial':2,
 
 df['occupation'] = df['occupation'].map(occupation_key)
 
-#TODO: relationship variable next
+#do the same wtih the realtionship variable
+relationship_key = {'Husband':0, 'Not-in-family':1, 'Own-child':2, 'Unmarried':3,
+'Wife':4, 'Other-relative':5}
 
+df['relationship'] = df['relationship'].map(relationship_key)
+
+#do the same with the race variable
 #drop most original variables
 df = df.drop(['income'], axis = 1)
 df = df.drop(['sex'], axis = 1)
-df = df.drop(['ethnicity'], axis = 1)
+df = df.drop(['race'], axis = 1)
 df = df.drop(['native.country'], axis = 1)
 df = df.drop(['workclass'], axis = 1)
 df = df.drop(['marital.status'], axis = 1)
 
-print(df.head(30))
+#place hours per week into three categories: <40, 40, amd >40
+df['hours.per.week'] = df['hours.per.week'].astype(int)
+df.loc[df['hours.per.week'] < 40, 'hours.per.week'] = 0
+df.loc[df['hours.per.week'] == 40, 'hours.per.week'] = 1
+df.loc[df['hours.per.week'] > 40, 'hours.per.week'] = 2
 
+print(df['hours.per.week'].value_counts())
 
-'''
+#start visualizing the freshly cleaned data
+
 #print frequency table of population's education level
 print(df['education.num'].value_counts())
 
@@ -95,18 +103,49 @@ plt.savefig(graph_folder_path + 'ageHist.png')
 
 #make a bar graph showing income based on gender
 incomeGenderBar = plt.figure()
-incomeGenderBar = pd.crosstab(df['sex'], df['income'])
+incomeGenderBar = pd.crosstab(df['gender'], df['income_level'])
 incomeGenderBar.plot(kind = 'bar', color = ['red','green'], 
 	grid = False, title = 'Income Based on Gender')
 plt.savefig(graph_folder_path + 'incomeGenderBar.png')
 
-incomeCountryPie = plt.figure()
-plt.pie(df['income'], labels = df['native.country'])
-plt.savefig(graph_folder_path + 'incomeCountryPie.png')
-
+#make a bar graph showing income based on education
 incomeEdBar = plt.figure()
-incomeEdBar = pd.crosstab(df['education.num'], df['income'])
+incomeEdBar = pd.crosstab(df['education.num'], df['income_level'])
 incomeEdBar.plot(kind = 'bar', color = ['red','green'], 
 	grid = False, title = 'Income Based on Education')
 plt.savefig(graph_folder_path + 'incomeEdBar.png')
-'''
+
+#make a bar graph based on income and occupation
+incomeGenderOccGraph = plt.figure()
+incomeGenderOccGraph = pd.crosstab(df['occupation'], df['income_level'])
+incomeGenderOccGraph.plot(kind = 'bar', stacked = True, color = ['red', 'blue'],
+	grid = False, title = 'Income based on Occupation')
+plt.savefig(graph_folder_path + 'incomeOccGraph.png')
+
+#make a bar graph based on income and marital status
+incomeMarriageBar = plt.figure()
+incomeMarriageBar = pd.crosstab(df['marital_status'], df['income_level'])
+incomeMarriageBar.plot(kind = 'bar', stacked = True, color = ['red', 'green'], 
+	grid = False, title = 'Income Based on Marital Status')
+plt.savefig(graph_folder_path + 'incomeMarriageBar.png')
+
+#make a bar graph based on income and native country
+incomeCountryBar = plt.figure()
+incomeCountryBar = pd.crosstab(df['native_country'], df['income_level'])
+incomeCountryBar.plot(kind = 'bar', stacked = True, color = ['red', 'green'], 
+	grid = False, title = 'Income Based on Native Country')
+plt.savefig(graph_folder_path + 'incomeCountryBar.png')
+
+#make a graph based on income and hours worked per week
+incomeHoursBar = plt.figure()
+incomeHoursBar = pd.crosstab(df['hours.per.week'], df['income_level'])
+incomeHoursBar.plot(kind = 'bar', stacked = True, color = ['red', 'green'], 
+	grid = False, title = 'Income Based on Hours per Week')
+plt.savefig(graph_folder_path + 'incomeHoursBar.png')
+
+
+
+
+
+
+
