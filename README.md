@@ -1,7 +1,7 @@
 Census Income Prediction
 ===
 
-This python script that predicts whether a person's income excedes $50K/yr given census data. The attributes include
+This python script that predicts whether a person's income excedes $50K/yr given census data. The attributes include asdfasdf
 
 
 
