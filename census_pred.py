@@ -1,6 +1,12 @@
 import numpy as np 
 import pandas as pd 
 from matplotlib import pyplot as plt 
+from sklearn import metrics
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+from xgboost import XGBClassifier
+
 
 #get dataset
 df = pd.read_csv('/Users/hernanrazo/pythonProjects/census_income_prediction/adult.csv')
@@ -81,14 +87,13 @@ df = df.drop(['race'], axis = 1)
 df = df.drop(['native.country'], axis = 1)
 df = df.drop(['workclass'], axis = 1)
 df = df.drop(['marital.status'], axis = 1)
+df = df.drop(['education'], axis = 1)
 
 #place hours per week into three categories: <40, 40, amd >40
 df['hours.per.week'] = df['hours.per.week'].astype(int)
 df.loc[df['hours.per.week'] < 40, 'hours.per.week'] = 0
 df.loc[df['hours.per.week'] == 40, 'hours.per.week'] = 1
 df.loc[df['hours.per.week'] > 40, 'hours.per.week'] = 2
-
-print(df['hours.per.week'].value_counts())
 
 #start visualizing the freshly cleaned data
 
@@ -142,6 +147,53 @@ incomeHoursBar = pd.crosstab(df['hours.per.week'], df['income_level'])
 incomeHoursBar.plot(kind = 'bar', stacked = True, color = ['red', 'green'], 
 	grid = False, title = 'Income Based on Hours per Week')
 plt.savefig(graph_folder_path + 'incomeHoursBar.png')
+
+#now start training models 
+#start off by splitting the dataset between a training and testing dataset
+train, test = train_test_split(df, test_size = 0.3)
+
+train_x = train.drop(['income_level'], axis = 1)
+train_y = train['income_level']
+
+test_x = test.drop(['income_level'], axis = 1)
+test_y = test['income_level']
+
+#train multiple models to get the best one. 
+
+#Start off with the KNN algorithm
+k_values = np.arange(1, 25)
+scores = []
+
+for k in k_values:
+	model = KNeighborsClassifier(n_neighbors = k)
+	model.fit(train_x, train_y)
+	KNN_prediction = model.predict(test_x)
+	scores.append(metrics.accuracy_score(test_y, KNN_prediction))
+
+print('KNN Results:')
+print(scores.index(max(scores)), max(scores))
+print(' ')
+
+#try the DecisionTreeClassifier algorithm
+model = DecisionTreeClassifier(class_weight = None, min_samples_leaf = 100, 
+	random_state = 10)
+model.fit(train_x, train_y)
+
+DTC_prediction = model.predict(test_x)
+
+print('Decision tree Results:')
+print(metrics.accuracy_score(test_y, DTC_prediction))
+print(' ')
+
+#now try the Xgboost algorithm
+clf = XGBClassifier()
+clf.fit(train_x, train_y)
+
+XGBC_prediction = clf.predict(test_x)
+
+print('XGBClassifier results:')
+print(metrics.accuracy_score(test_y, XGBC_prediction))
+
 
 
 
