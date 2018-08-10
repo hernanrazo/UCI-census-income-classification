@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from xgboost import XGBClassifier
-
+from catboost import CatBoostClassifier
 
 #get dataset
 df = pd.read_csv('/Users/hernanrazo/pythonProjects/census_income_prediction/adult.csv')
@@ -195,9 +195,12 @@ print('XGBClassifier results:')
 print(metrics.accuracy_score(test_y, XGBC_prediction))
 
 
+#try the catboostClassifier
+CTClassifier = CatBoostClassifier(learning_rate = 0.04)
+CTClassifier.fit(train_x, train_y)
+CTC_prediction = CTClassifier.predict(test_x)
 
-
-
-
+print('CatBoostClassifier:')
+print(metrics.accuracy_score(test_y, CTC_prediction))
 
 
