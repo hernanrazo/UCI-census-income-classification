@@ -119,10 +119,23 @@ Finally, we are done cleaning the data. We can move on to visualizing it and mak
 ```python
 print(df['education.num'].value_counts())
 ```  
-
-Get an idea of the population's age by graphing an histogram of the `age` variable:
+Get an idea of the population's age by graphing a histogram of the `age` variable:  
 
 ![ageHist.png](https://github.com/hrazo7/UCI-census-income-classification/blob/master/graphs/ageHist.png)
+
+Next, make various graphs displaying the correlation between income and other variables. Start with gender:  
+
+![incomeGender.png](https://github.com/hrazo7/UCI-census-income-classification/blob/master/graphs/incomeGenderBar.png)  
+
+We can see that men are more likely to be both above 50K and below 50K. We can also see that women are more likely to have an income of less than 50K.
+
+Next, let's look at education:  
+
+![incomeEdBar.png](https://github.com/hrazo7/UCI-census-income-classification/blob/master/graphs/incomeEdBar.png)  
+
+This tells us that those that had less than a 12th grade education had a very slim chance of making more than 50K. It also tells us that an education of at least a high school deiploma drastically increases your chances of making more than 50K. Most people that made more than 50K had a bachelors degree. Oddly enough, going above a bachelors drops your likelihood of earning more than 50K.  
+
+
 
 
 
