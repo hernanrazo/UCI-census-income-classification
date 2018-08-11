@@ -133,7 +133,7 @@ Next, let's look at education:
 
 ![incomeEdBar.png](https://github.com/hrazo7/UCI-census-income-classification/blob/master/graphs/incomeEdBar.png)  
 
-This tells us that those that had less than a 12th grade education had a very slim chance of making more than 50K. It also tells us that an education of at least a high school deiploma drastically increases your chances of making more than 50K. Most people that made more than 50K had a bachelors degree. Oddly enough, going above a bachelors drops your likelihood of earning more than 50K.  
+This tells us that those that had less than a 12th grade education had a very slim chance of making more than 50K. It also tells us that an education of at least a high school deiploma drastically increases your chances of making more than 50K. This also shows us that once we get to a higher education level past a bachelors, there are more people with incomes higher than 50K than those below.
 
 
 
