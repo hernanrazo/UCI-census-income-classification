@@ -191,7 +191,7 @@ clf.fit(train_x, train_y)
 
 XGBC_prediction = clf.predict(test_x)
 
-print('XGBClassifier results:')
+print('XGBoost results:')
 print(metrics.accuracy_score(test_y, XGBC_prediction))
 
 #try the catboostClassifier
@@ -199,6 +199,6 @@ CTClassifier = CatBoostClassifier(learning_rate = 0.04)
 CTClassifier.fit(train_x, train_y)
 CTC_prediction = CTClassifier.predict(test_x)
 
-print('CatBoostClassifier:')
+print('CatBoost results:')
 print(metrics.accuracy_score(test_y, CTC_prediction))
 

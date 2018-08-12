@@ -131,9 +131,34 @@ We can see that men are more likely to be both above 50K and below 50K. We can a
 
 Next, let's look at education:  
 
-![incomeEdBar.png](https://github.com/hrazo7/UCI-census-income-classification/blob/master/graphs/incomeEdBar.png)  
+![incomeEdBar.png](https://github.com/hrazo7/UCI-census-income-classification/blob/master/graphs/incomeEdBar.png)   
 
-This tells us that those that had less than a 12th grade education had a very slim chance of making more than 50K. It also tells us that an education of at least a high school deiploma drastically increases your chances of making more than 50K. This also shows us that once we get to a higher education level past a bachelors, there are more people with incomes higher than 50K than those below.
+This tells us that those that had less than a 12th grade education have a very slim chance of making more than 50K. It also tells us that an education of at least a high school diploma drastically increases your chances of making more than 50K. This also shows us that once we get to higher education levels past a bachelors, there are more people with incomes higher than 50K than those below.
+
+Now let's take a look at occupation. Plot a graph showing income based on the listed occupations. 
+
+![incomeOccGraph.png](https://github.com/hrazo7/UCI-census-income-classification/blob/master/graphs/incomeOccGraph.png)  
+
+This graph tells us that most people with high incomes had jobs in the `Prof-speciality`, `Craft-repair`, `Exec-managerial`, `Adm-clerical`, and `Sales` categories. `Prof-speciality` and `Exec-managerial`, especially had a high amount of people with incomes above 50K. We can also see that those in the `priv-house-service`are gauranteed to not earn above 50K. 
+
+`Relationship` is the next variable we'll look at. Make a bar graph correlating this with income.  
+
+![incomeMarriageBar.png](https://github.com/hrazo7/UCI-census-income-classification/blob/master/graphs/incomeMarriageBar.png)  
+
+We can see that those in `Husband` have the most higher incomes compared to the other categories but still have almost the same amount in the lower income level. Those in the `Unmarried`, `Wife`, and `Other-relative` categories have mosty everyone in the less than 50K income range.  
+
+Looking at the income to native country variables, it is clear that the `United States` overpowers all other countries in terms of getting above 50K.  
+
+![incomeCountryBar.png](https://github.com/hrazo7/UCI-census-income-classification/blob/master/graphs/incomeCountryBar.png)  
+
+Lastly, let's look at the hours per week variable. make a bar graph comparing hours per week and income:
+
+![incomeHoursBar.png](https://github.com/hrazo7/UCI-census-income-classification/blob/master/graphs/incomeHoursBar.png)  
+
+Since we split the data into three categories earlier, there are only three x-values. We can see that those that made more than 50K worked 40 or more hours per week. a very small amount of those with high incomes worked less than 40 hours per week.  
+
+Now we can start working on some models. 
+
 
 
 
