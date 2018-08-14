@@ -1,7 +1,7 @@
 Census Income Prediction
 ===
 
-This python script that predicts whether a person's income excedes $50K/yr given census data. The attributes include age, workclass, education, race, sex, capital gain, etc. 
+This python script that predicts whether a person's income excedes $50K/yr given census data. The attributes include age, workclass, education, race, sex, capital gain, etc. This exercise is part of the [Adult Census Income](https://www.kaggle.com/uciml/adult-census-income) challenge on Kaggle.
 
 This demo uses the scikit-learn, pandas, numpy, and matplotlib libraries. The algorithms used in the model were K Nearest Neighbors, Decision tree, XGBoost, and CatBoost.  
 
@@ -127,27 +127,25 @@ Next, make various graphs displaying the correlation between income and other va
 
 ![incomeGender.png](https://github.com/hrazo7/UCI-census-income-classification/blob/master/graphs/incomeGenderBar.png)  
 
-We can see that men are more likely to be both above 50K and below 50K. We can also see that women are more likely to have an income of less than 50K.
+We can see that men are more likely to be both above $50K and below $50K. We can also see that women are more likely to have an income of less than $50K.
 
 Next, let's look at education:  
 
 ![incomeEdBar.png](https://github.com/hrazo7/UCI-census-income-classification/blob/master/graphs/incomeEdBar.png)   
 
-This tells us that those that had less than a 12th grade education have a very slim chance of making more than 50K. It also tells us that an education of at least a high school diploma drastically increases your chances of making more than 50K. This also shows us that once we get to higher education levels past a bachelors, there are more people with incomes higher than 50K than those below.
+This tells us that those that had less than a 12th grade education have a very slim chance of making more than $50K. It also tells us that an education of at least a high school diploma drastically increases your chances of making more than $50K. This also shows us that once we get to higher education levels past a bachelors, there are more people with incomes higher than 50K than those below.
 
 Now let's take a look at occupation. Plot a graph showing income based on the listed occupations. 
 
 ![incomeOccGraph.png](https://github.com/hrazo7/UCI-census-income-classification/blob/master/graphs/incomeOccGraph.png)  
 
-This graph tells us that most people with high incomes had jobs in the `Prof-speciality`, `Craft-repair`, `Exec-managerial`, `Adm-clerical`, and `Sales` categories. `Prof-speciality` and `Exec-managerial`, especially had a high amount of people with incomes above 50K. We can also see that those in the `priv-house-service`are gauranteed to not earn above 50K. 
+This graph tells us that most people with high incomes had jobs in the `Prof-speciality`, `Craft-repair`, `Exec-managerial`, `Adm-clerical`, and `Sales` categories. `Prof-speciality` and `Exec-managerial` especially had a high amount of people with incomes above 50K. We can also see that those in the `priv-house-service`are gauranteed to not earn above 50K. 
 
 `Relationship` is the next variable we'll look at. Make a bar graph correlating this with income.  
 
 ![incomeMarriageBar.png](https://github.com/hrazo7/UCI-census-income-classification/blob/master/graphs/incomeMarriageBar.png)  
 
-We can see that those in `Husband` have the most higher incomes compared to the other categories but still have almost the same amount in the lower income level. Those in the `Unmarried`, `Wife`, and `Other-relative` categories have mosty everyone in the less than 50K income range.  
-
-Looking at the income to native country variables, it is clear that the `United States` overpowers all other countries in terms of getting above 50K.  
+We can see that those in `Husband` have most of the higher incomes compared to the other categories but still have almost the same amount in the lower income level. Those in the `Unmarried`, `Wife`, and `Other-relative` categories have mosty everyone in the less than $50K.  
 
 ![incomeCountryBar.png](https://github.com/hrazo7/UCI-census-income-classification/blob/master/graphs/incomeCountryBar.png)  
 
@@ -155,15 +153,74 @@ Lastly, let's look at the hours per week variable. make a bar graph comparing ho
 
 ![incomeHoursBar.png](https://github.com/hrazo7/UCI-census-income-classification/blob/master/graphs/incomeHoursBar.png)  
 
-Since we split the data into three categories earlier, there are only three x-values. We can see that those that made more than 50K worked 40 or more hours per week. a very small amount of those with high incomes worked less than 40 hours per week.  
+Since we split the data into three categories earlier, there are only three x-values. We can see that those that made more than $50K worked 40 or more hours per week. a very small amount of those with high incomes worked less than 40 hours per week.  
 
-Now we can start working on some models. 
+Now we can start working on some models. We will try a few and stick with the one that got the best score.  
+
+Start off with K-nearest Neighbors algorithm. We will use a range of 1 to 25 for the value of n. Store each score in an empty list and return the best score after training the model.  
+
+```python
+k_values = np.arange(1, 25)
+scores = []
+
+for k in k_values:
+	model = KNeighborsClassifier(n_neighbors = k)
+	model.fit(train_x, train_y)
+	KNN_prediction = model.predict(test_x)
+	scores.append(metrics.accuracy_score(test_y, KNN_prediction))
+
+print('KNN Results:')
+print(scores.index(max(scores)), max(scores))
+print(' ')
+```  
+
+The best accuracy score from this algorithm is 0.7917 when n = 21.  
+
+Let's try the decision tree algorithm:  
+
+```python
+model = DecisionTreeClassifier(class_weight = None, min_samples_leaf = 100, 
+	random_state = 10)
+model.fit(train_x, train_y)
+
+DTC_prediction = model.predict(test_x)
+
+print('Decision tree Results:')
+print(metrics.accuracy_score(test_y, DTC_prediction))
+print(' ')
+```  
+
+This algorithm returns an accuracy score of 0.8568. That's better than the KNN model, but let's try the XGBoost algorithm:  
 
 
+```python
+XGBClassifier = XGBClassifier()
+XGBClassifier.fit(train_x, train_y)
 
+XGBC_prediction = XGBClassifier.predict(test_x)
 
+print('XGBoost results:')
+print(metrics.accuracy_score(test_y, XGBC_prediction))
+```  
+We get an accuracy score of 0.8691.  
 
+Let's try the catboost algorithm:  
 
+```python
+CBClassifier = CatBoostClassifier(learning_rate = 0.04)
+CBClassifier.fit(train_x, train_y)
+CBC_prediction = CBClassifier.predict(test_x)
+
+print('CatBoost results:')
+print(metrics.accuracy_score(test_y, CBC_prediction))
+```  
+
+This algorithm returns an accuracy score of 0.873.
+
+Acknowledgements
+---
+
+I reviewed various Kaggle kernels and other sources. One resource I used was [this paper by Chet Lemon, Chris Zelazo, and Kesav Mulakaluri](https://cseweb.ucsd.edu/~jmcauley/cse190/reports/sp15/048.pdf). I also reviewed [this Kaggle Kernel by Kanavanand](https://www.kaggle.com/kanav0183/catboost-and-other-class-algos-with-88-accuracy).
 
 Sources and Helpful Links
 ---  

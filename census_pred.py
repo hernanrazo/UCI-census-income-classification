@@ -73,7 +73,7 @@ occupation_key = {'Prof-specialty':0, 'Craft-repair':1, 'Exec-managerial':2,
 
 df['occupation'] = df['occupation'].map(occupation_key).astype(int)
 
-#do the same wtih the realtionship variable
+#do the same wtih the relationship variable
 relationship_key = {'Husband':0, 'Not-in-family':1, 'Own-child':2, 'Unmarried':3,
 'Wife':4, 'Other-relative':5}
 
@@ -174,7 +174,7 @@ print('KNN Results:')
 print(scores.index(max(scores)), max(scores))
 print(' ')
 
-#try the DecisionTreeClassifier algorithm
+#try the Decision Tree algorithm
 model = DecisionTreeClassifier(class_weight = None, min_samples_leaf = 100, 
 	random_state = 10)
 model.fit(train_x, train_y)
@@ -186,19 +186,19 @@ print(metrics.accuracy_score(test_y, DTC_prediction))
 print(' ')
 
 #now try the Xgboost algorithm
-clf = XGBClassifier()
-clf.fit(train_x, train_y)
+XGBClassifier = XGBClassifier()
+XGBClassifier.fit(train_x, train_y)
 
-XGBC_prediction = clf.predict(test_x)
+XGBC_prediction = XGBClassifier.predict(test_x)
 
 print('XGBoost results:')
 print(metrics.accuracy_score(test_y, XGBC_prediction))
 
-#try the catboostClassifier
-CTClassifier = CatBoostClassifier(learning_rate = 0.04)
-CTClassifier.fit(train_x, train_y)
-CTC_prediction = CTClassifier.predict(test_x)
+#try the catboost algorithm
+CBClassifier = CatBoostClassifier(learning_rate = 0.04)
+CBClassifier.fit(train_x, train_y)
+CBC_prediction = CBClassifier.predict(test_x)
 
 print('CatBoost results:')
-print(metrics.accuracy_score(test_y, CTC_prediction))
+print(metrics.accuracy_score(test_y, CBC_prediction))
 
